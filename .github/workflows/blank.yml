@@ -21,5 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            mkdir test
+            cd test
             echo "Hello World"
 
