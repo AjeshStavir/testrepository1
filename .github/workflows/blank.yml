@@ -20,8 +20,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          script: |
-          
-            cd test2
-            git pull origin main
+          script: |  
+          mkdir test3
+            cd test3
+            git clone https://github.com/AjeshStavir/testrepository1.git
             
