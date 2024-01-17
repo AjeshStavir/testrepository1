@@ -23,5 +23,5 @@ jobs:
           script: |
             mkdir test
             cd test
-            echo "Hello World"
+            echo "Hello World" >  hello_output.txt
 
