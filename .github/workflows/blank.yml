@@ -21,6 +21,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |  
-              mkdir newone
-              cd newone
-              echo "Hello newone" > hello_text.txt
+             git clone https://github.com/AjeshStavir/testrepository1.git
