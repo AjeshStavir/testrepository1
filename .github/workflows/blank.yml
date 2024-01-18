@@ -23,6 +23,5 @@ jobs:
           script: |  
              cd testrepository1
              cd backend/server
-             npm install
              node app.js
              
