@@ -13,11 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'  # You can adjust the version as needed
-
       - name: SSH into Server 
         uses: appleboy/ssh-action@master
         with:
@@ -28,5 +23,6 @@ jobs:
           script: |  
              cd testrepository1
              cd backend/server
+             sudo apt install nodejs
              node app.js
 
