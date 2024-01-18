@@ -21,4 +21,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |  
-             git clone https://github.com/AjeshStavir/testrepository1.git
+             git pull origin main
+             
