@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |  
-            mkdir test4
-            cd test4
+            mkdir test3
+            cd test3
             git clone https://github.com/AjeshStavir/testrepository1.git
             
