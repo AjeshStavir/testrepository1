@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: SSH into Server and Print Hello World
+      - name: SSH into Server 
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
