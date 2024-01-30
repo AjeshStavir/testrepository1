@@ -28,7 +28,7 @@ jobs:
               pkill -x node
             fi
             
-            cd colleague-portal
+            cd testrepository1
            git pull origin main
 
            # Install backend dependencies and start the Node.js server
@@ -39,7 +39,7 @@ jobs:
 
             # Install frontend dependencies and start the frontend server
             cd
-            cd colleague-portal/frontend
+            cd testrepository1/frontend
             npm install
             nohup npm start &> frontend.log &
 
