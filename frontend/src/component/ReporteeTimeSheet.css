@@ -1,0 +1,12 @@
+.largeFontSize {
+    font-size: 16px;
+  }
+  
+  .largePadding {
+    padding: 10px;
+  }
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+     }
+  
