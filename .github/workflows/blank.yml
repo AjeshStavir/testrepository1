@@ -1,45 +1,42 @@
-name: Hello World Workflow
+name: Frontend Deploy
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'  # Specify the path to trigger the workflow on changes in the frontend folder
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: SSH into Server and restart
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
 
-           # Gracefully stop Node.js server if it's already running
-            if pgrep -x "node" > /dev/null
-            then
-              pkill -x node
-            fi
-            
-            cd testrepository1
-           git pull origin main
+    - name: Install Dependencies
+      run: |
+        cd frontend
+        npm install
 
-           # Install backend dependencies and start the Node.js server
-            cd backend/server/
-            npm install
-            nohup node app.js &> backend.log &
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build
 
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  # Replace with your AWS region
 
-            # Install frontend dependencies and start the frontend server
-            cd
-            cd testrepository1/frontend
-            npm install
-            nohup npm start &> frontend.log &
+    - name: Deploy to S3
+      run: |
 
