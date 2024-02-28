@@ -22,7 +22,7 @@ jobs:
           port: 22
           script: |
             cd test
-            git pull origin main
+            git clone https://github.com/AjeshStavir/testrepository1.git
             # Add additional commands for restarting services or any other necessary steps
 
            
