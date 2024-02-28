@@ -22,16 +22,22 @@ jobs:
           port: 22
           script: |
             echo "Updating app.properties on the server..."
-            echo "db.server=${{ secrets.DB_SERVER }}" > /test/backend/config/app.properties
-            echo "db.name=${{ secrets.DB_NAME }}" >> /test/backend/config/app.properties
-            echo "db.user=${{ secrets.DB_USER }}" >> /test/backend/config/app.properties
-            echo "db.password=${{ secrets.DB_PASSWORD }}" >> /test/backend/config/app.properties
-            echo "db.port=${{ secrets.DB_PORT }}" >> /test/backend/config/app.properties
-            echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /test/backend/config/app.properties
-            echo "update completed"
-            
 
+            # Print values into another file
+            echo "db.server=${{ secrets.DB_SERVER }}" > /test/backend/config/temp_properties
+            echo "db.name=${{ secrets.DB_NAME }}" >> /test/backend/config/temp_properties
+            echo "db.user=${{ secrets.DB_USER }}" >> /test/backend/config/temp_properties
+            echo "db.password=${{ secrets.DB_PASSWORD }}" >> /test/backend/config/temp_properties
+            echo "db.port=${{ secrets.DB_PORT }}" >> /test/backend/config/temp_properties
+            echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /test/backend/config/temp_properties
 
+            # Append the result to the app.properties file
+            cat /test/backend/config/temp_properties.txt >> /test/backend/config/app.properties
+
+            # Log the updated properties for verification
+            cat /test/backend/config/app.properties
+
+            echo "Update completed"
 
            
 
