@@ -1,4 +1,4 @@
-name: Hello World Workflow
+name: Deploy to EC2 Server
 
 on:
   push:
@@ -13,17 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: SSH into Server and restart
+      - name: SSH into Server and Update app.properties
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
+          timeout: 600s
           script: |
-            cd test
-            git clone https://github.com/AjeshStavir/testrepository1.git
-            # Add additional commands for restarting services or any other necessary steps
+            echo "Updating app.properties on the server..."
+            echo "db.server=${{ secrets.DB_SERVER }}" > /test/backend/config/app.properties
+            echo "db.name=${{ secrets.DB_NAME }}" >> /test/backend/config/app.properties
+            echo "db.user=${{ secrets.DB_USER }}" >> /test/backend/config/app.properties
+            echo "db.password=${{ secrets.DB_PASSWORD }}" >> /test/backend/config/app.properties
+            echo "db.port=${{ secrets.DB_PORT }}" >> /test/backend/config/app.properties
+            echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /test/backend/config/app.properties
+            # Add other credentials if needed
+            echo "Update completed."
+
 
            
 
