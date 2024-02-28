@@ -29,8 +29,7 @@ jobs:
             echo "db.password=${{ secrets.DB_PASSWORD }}" >> /test/backend/config/app.properties
             echo "db.port=${{ secrets.DB_PORT }}" >> /test/backend/config/app.properties
             echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /test/backend/config/app.properties
-            # Add other credentials if needed
-            echo "Update completed." > /test/backend/config/app.properties.result
+            
 
 
 
