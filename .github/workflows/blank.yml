@@ -22,12 +22,12 @@ jobs:
           port: 22
           script: |
             echo "Updating app.properties on the server..."
-            echo "db.server=${{ secrets.DB_SERVER }}" > /test/backend/server/config/app.properties
-            echo "db.name=${{ secrets.DB_NAME }}" >> /test/backend/server/config/app.properties
-            echo "db.user=${{ secrets.DB_USER }}" >> /test/backend/server/config/app.properties
-            echo "db.password=${{ secrets.DB_PASSWORD }}" >> /test/backend/server/config/app.properties
-            echo "db.port=${{ secrets.DB_PORT }}" >> /test/backend/server/config/app.properties
-            echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /test/backend/server/config/app.properties
+            echo "db.server=${{ secrets.DB_SERVER }}" > /test/backend/config/app.properties
+            echo "db.name=${{ secrets.DB_NAME }}" >> /test/backend/config/app.properties
+            echo "db.user=${{ secrets.DB_USER }}" >> /test/backend/config/app.properties
+            echo "db.password=${{ secrets.DB_PASSWORD }}" >> /test/backend/config/app.properties
+            echo "db.port=${{ secrets.DB_PORT }}" >> /test/backend/config/app.properties
+            echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /test/backend/config/app.properties
             # Add other credentials if needed
       - name: SSH into Server and Restart
         uses: appleboy/ssh-action@master
