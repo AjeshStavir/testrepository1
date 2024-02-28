@@ -1,44 +1,43 @@
-name: Frontend Deploy
+name: Deploy to Test Environment
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'frontend/**'  # Specify the path to trigger the workflow on changes in the frontend folder
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: SSH into Server and Transfer app.properties
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            echo "Updating app.properties on the server..."
+            echo "db.server=${{ secrets.DB_SERVER }}" > /path/on/server/app.properties
+            echo "db.name=${{ secrets.DB_NAME }}" >> /path/on/server/app.properties
+            echo "db.user=${{ secrets.DB_USER }}" >> /path/on/server/app.properties
+            echo "db.password=${{ secrets.DB_PASSWORD }}" >> /path/on/server/app.properties
+            echo "db.port=${{ secrets.DB_PORT }}" >> /path/on/server/app.properties
+            echo "db.connectionLimit=${{ secrets.DB_CONNECTION_LIMIT }}" >> /path/on/server/app.properties
+            # Add other credentials if needed
+      - name: SSH into Server and Restart
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            echo "Restarting the server..."
+            # Add commands to restart your server
 
-    - name: Install Dependencies
-      run: |
-        cd frontend
-        npm install
-
-    - name: Build Frontend
-      run: |
-        cd frontend
-        npm run build
-
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # Replace with your AWS region
-
-    - name: Deploy to S3
-      run: |
-         aws s3 sync ./frontend/build s3://stavir1   
-         
 
